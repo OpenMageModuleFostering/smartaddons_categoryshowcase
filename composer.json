@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/smartaddons_categoryshowcase",
+    "type": "magento-module",
+    "license": "GNU-General-Public-License-(GPL)-",
+    "homepage": "",
+    "description": "smartaddons_categoryshowcase",
+    "authors": [
+    {
+        "name": "magentech.com",
+        "email": "contact@ytcvn.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

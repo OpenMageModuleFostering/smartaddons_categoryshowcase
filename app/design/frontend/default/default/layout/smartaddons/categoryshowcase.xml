@@ -1,0 +1,28 @@
+<?xml version="1.0"?>   
+<layout version="1.0">
+	<default>
+        <reference name="head">
+        	<action method="addCss"><stylesheet>smartaddons/categoryshowcase/css/style.css</stylesheet></action>
+			<action method="addItem"><type>skin_css</type><name>smartaddons/categoryshowcase/css/ie7.css</name><params/><if>IE 7</if></action>  
+        </reference>	
+    </default>
+	<categoryshowcase_index_index>
+		<reference name="root">
+			<action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+		</reference>	
+        <reference name="head">
+        	<action method="addCss"><stylesheet>smartaddons/categoryshowcase/css/style.css</stylesheet></action>
+			<action method="addItem"><type>skin_css</type><name>smartaddons/categoryshowcase/css/ie7.css</name><params/><if>IE 7</if></action>  
+        </reference>	
+		<reference name="content">
+			<block type="categoryshowcase/list" name="categoryshowcase.list.theme1">
+				<action method="setConfig">
+					<name>
+						<theme>theme1</theme>						
+					</name>
+				</action>
+			</block>
+		</reference>
+	</categoryshowcase_index_index>	
+</layout>   
+	

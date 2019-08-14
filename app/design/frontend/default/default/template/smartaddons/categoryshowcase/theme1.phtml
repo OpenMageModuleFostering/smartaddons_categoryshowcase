@@ -1,0 +1,183 @@
+<?php           
+
+/*------------------------------------------------------------------------
+# SM CategoryShowcase - Version 1.0
+# Copyright (C) 2009-2011 YouTech Company. All Rights Reserved.
+# @license - Copyrighted Commercial Software
+# Author: YouTech Company
+# Websites: http://www.smartaddons.com
+-------------------------------------------------------------------------*/
+           
+?>
+<?php
+ $divid = rand().time();
+ $smarthelper= Mage::helper('categoryshowcase/utils');
+ $items = $this->getCategory();
+ $config = $this->getConfigObject();
+ $background_color ='#333333';
+ $price_color ='#4F962C';
+ ?>
+<?php if(count($items)>0):?>
+	<?php echo $this->getScriptTags(); ?>
+<style>
+.yt-virtue-category-showcase #caption_<?php echo $divid;?> p a {
+	color: #FFFFFF!important;
+	text-decoration:none;
+	font-family:'BebasNeueRegular';
+	}
+.yt-virtue-category-showcase .theme1 ul li.button_img{
+	background: <?php echo $background_color;?> no-repeat!important;	
+	border: 1px solid #ccc;
+	width: 20px;
+	height: 20px;	
+	cursor: pointer;
+}
+.yt-virtue-category-showcase .first_item {
+    color:#FFFFFF;
+	text-decoration:none;
+	font-family:'BebasNeueRegular';
+	font-size: 1.5em;
+	margin-top: 8px;
+} 
+</style>
+<script language="javascript">
+//<CDATA[[
+$jsmart(document).ready(function($){
+	 $('#featured<?php echo $divid;?>').cycle({
+		fx:     '<?php echo $config['animation'];?>',
+		timeout: <?php echo $config['interval'];?>,
+		speed:  <?php echo $config['duration'];?>, 
+		next:   '#next<?php echo $divid;?>', 
+		divId: '<?php echo $divid;?>',
+		theme:'<?php echo $config['theme'];?>',
+		linktarget:'<?php echo $config['product_links_target'];?>',
+		//linkcaption:<?php echo $config['product_title_linkable'];?>,	
+		autoPlay:<?php echo $config['auto_play'];?>
+	});
+	 $('#cover_buttons_<?php echo $divid;?>').children('.opacity1').width($('#cover_buttons_<?php echo $divid;?>').width()+ 5);
+});
+ //]]>
+</script>
+		
+<?php if (!empty($config['title'])): ?>
+<div class="block-title" style="font-size: 16px; font-weight: bold;"><?php echo $config['title']; ?></div>
+<?php endif; ?>
+<!--Intro Text-->
+<?php if($config['pretext']): ?>
+<div style="text-align:left;">
+	<?php  echo $config['pretext'];?>
+</div>
+<br/>
+<?php endif;?>
+<!--End Intro Text-->
+ 
+<div class="yt-virtue-category-showcase">
+	<div class="slide_image" style="width: <?php echo $config['category_image_width'];?>px; height:<?php echo $config['category_image_height'];?>px;">
+<?php 
+		if ($config['category_title_disp'] ==1) {
+			$j=0; 
+			foreach ($items as $key=>$value) {		//'category_id' => array($item1[], $item2[])	?>
+				<div id="caption_<?php echo $divid.$j;?>" class="captions <?php if($j==0) echo "current";?>" style="margin-left: 10px; position: absolute; <?php if($j==0) echo "display:block;"; else echo "display:none";?>">
+							<div class="caption_left_bg">&nbsp;</div>			
+							<div class="caption_center_bg" style="bottom:50px;"><?php echo $value['sub_title']; ?></div>
+							<div class="caption_right_bg">&nbsp;</div>	
+				</div>	   
+<?php 			$j++;
+			}
+		}	?>	
+		<div id="featured<?php echo $divid;?>" style="width: <?php echo $config['category_image_width']?>px; height:<?php echo $config['category_image_height']?>px;">
+	<?php  
+			foreach ($items as $key=>$value){		?>		          
+				<a href="<?php echo ($config['category_image_linkable'])?$value['link']:"#";?>" <?php echo $smarthelper->getTargetAttr($config['product_links_target']); ?> onclick="<?php if($config['category_image_linkable']):?>javascript: return true; <?php else: ?>javascript: return false; <?php endif;?>">				
+					<img alt="<?php echo $value['sub_title'];?>" src="<?php echo $value['thumb_image'];?>" href="<?php echo ($config['category_image_linkable'])?$value['link']:"#";?>" caption="<?php echo strtoupper($value['sub_title']);?>" <?php echo $smarthelper->getTargetAttr($config['product_links_target']); ?> style="width: <?php echo $config['category_image_width']?>px; height:<?php echo $config['category_image_height']?>px;"/>				
+				</a>		
+	<?php 	} 	?> 
+		</div> 	
+	
+		<div id="cover_buttons_<?php echo $divid;?>" class="cover-theme1" style="float:right;right:0px; position:absolute">	
+			<div style="background:<?php echo $background_color;?>;" class="opacity1">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+			<div class="<?php echo $config['theme'];?>">
+				<div style="float:left">
+					<ul id="image_button_<?php echo $divid;?>">
+		<?php 
+						$j=0; 
+						foreach ($items as $key=>$value){		?>	
+							<li class="<?php echo ($j==0)?"button_img_selected":"button_img";?>" value="<?php echo $j;?>" title="<?php echo strtoupper($value['sub_title']);?>"></li>
+		<?php 				$j++; 
+						} ?> 
+					</ul>
+				</div>			
+				<div id="next<?php echo $divid;?>" class="next">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+			</div>	
+		</div>		
+	</div> <!-- END slide_image -->
+	
+	<div class="box-wrapper" style="background:<?php echo $background_color;?>; height:<?php echo $config['category_image_height']?>px; width: <?php echo $config['width_cols'];?>px; overflow: hidden;">
+<?php    
+        //if(!empty($items)){
+			$j=0;
+            foreach ($items as $key=>$value){		?>		
+				<div id="ListChildren_<?php echo $divid.$j;?>" class="content <?php if($j==0) echo "current";?>" style="padding: 10px; overflow: hidden; height:<?php echo ($config['category_image_height'] -30)?>px; <?php if($j==0) echo "display:block;"; else echo "display:none";?>">
+
+<?php  			foreach ($value['productList'] as $item) {		?>    
+					<div style="margin-bottom: 10px; overflow:hidden; ">
+						<?php 	if (($config['product_image_disp']==1)&&($item['product_image'] !='')) {	?>	
+									<div class="images">
+										<?php 	if($config['product_image_linkable']==1) {?>
+													<a style="color:<?php echo $config['product_title_color'];?>" href="<?php echo $item['product_link'];?>" <?php echo $smarthelper->getTargetAttr($config['product_links_target']); ?>>
+														<img alt="<?php echo $item['product_sub_title'];?>" src="<?php echo $item['product_image']?>" href="<?php echo $item['product_link'];?>" <?php echo $smarthelper->getTargetAttr($config['product_links_target']); ?>/><br>
+													</a>
+										<?php 	} else {	?>
+														<img alt="<?php echo $item['product_sub_title'];?>" src="<?php echo $item['product_image']?>">
+										<?php 	}	?>
+									</div> 
+						<?php 	} 	?>
+						
+					    <div class="sub_content">                                         						
+							<?php 	if ($config['product_title_disp'] ==1) {	?>
+										<div class="title" style="color:<?php echo $config['product_title_color'];?>; font-weight: bold">
+											<?php 	if($config['product_title_linkable']==1) {	?>
+														<a style="color:<?php echo $config['product_title_color'];?>; font-weight: bold" href="<?php echo ($config['product_title_linkable'])?$item['product_link']:"#";?>" <?php echo $smarthelper->getTargetAttr($config['product_links_target']); ?>> <?php echo $item['product_sub_title'];?> </a> <br>                                     
+											<?php 	} else {	echo $item['product_sub_title'];	}	?> 						
+										</div>
+							<?php 	}?>
+							<?php 	if ($config['product_price_disp'] ==1) {	?>
+										<div class="price" style="color:<?php echo $price_color;?>;">
+										   <?php echo "<b>".$item["price"]."</b>" ?>						
+										</div>
+							<?php 	}	?>
+							<?php 	if ($config['product_description_disp'] == 1) {		?>
+										<div class="brief_description" style="color:<?php echo $config['product_description_color'];?>"><?php echo $item['product_content']; ?>	</div>
+							<?php 	}	?>
+							<?php 	if ($config['product_details_page_link_disp'] == 1) {	?>   
+										<div class="read_more"><a href="<?php echo $item['product_link'];?>" <?php echo $smarthelper->getTargetAttr($config['product_links_target']); ?>><?php echo $config['product_details_page_link_text'];?></a></div>
+							<?php 	}	?>						 
+				     	</div> <!-- END sub_content -->
+					</div>
+<?php 			}
+				if(count($value['productList']) > 0){
+						if ($config['product_view_all_link_disp'] ==1) { 	?>	
+							<div class="link_category"> 					   
+								<a href="<?php echo ($value['link']);?>" <?php echo $smarthelper->getTargetAttr($config['product_links_target']); ?>><?php echo $config['product_view_all_link_text'];?></a>						             	
+							</div>
+<?php 					}
+				}	?>		
+										
+				</div>
+				<!-- END content --> 		
+<?php  			$j++;
+			}
+		//}	?>		
+     </div> <!-- END box-wrapper --> 
+</div> <!-- END yt-vmcategory-showcase -->
+
+<!--End Module-->
+<?php else: ?>
+<p class="note-msg"><?php echo $this->__('There are no products matching the selection.') . Mage::helper('categoryshowcase')->__('Please choose a category for CategoryShowcase.') ?></p>
+<?php endif; ?>	
+<?php if($config['posttext']): ?>
+<br/>
+<div style="text-align:left">
+	<p><?php  echo $config['posttext'];?></p>
+</div>
+<?php endif;?>
